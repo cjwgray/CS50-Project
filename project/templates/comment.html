@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Comments
+{% endblock %}
+
+{% block main %}
+
+                          <section>
+                            <div>{{ username }}</div>
+                            <div class="wrapper-main">
+                                <h1><span id="name">Welcome to ClarenceGamingDEN</span></h1>
+                                <br>
+                                <img class="img_cj" src="/static/mgames.webp" alt="...">
+                                <br><br><br>
+                                <form action="comment" method="POST">
+                                <div class="input-group mb-3">
+                                <input name="comment" type="text" class="form-control" placeholder="Enter Comment Here" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">Add Comment</button>
+                                </div>
+                                </div>
+                            </form>
+                            </div>
+                          </section>
+
+
+
+
+
+                {% for comment in comments %}
+
+                    <div class="list-group-item">
+                        <h4>{{ comment.id }}</h4>
+                        <h6>{{ comment.comment }}</h6>
+                        <p>{{ comment.date }}</p>
+                    </div>
+                {% endfor %}
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block main %}
+<script>
+    let correct;
+    let incorrectSW;
+    let incorrectF;
+
+      window.addEventListener("load", function () {
+
+        //when click on, "My favorite game"
+        correct = document.querySelector('.myFavorite');
+        correct.addEventListener('click', function () {
+          correct.style.backgroundColor = 'Green';
+          incorrectSW.style.backgroundColor = 'White';
+          incorrectF.style.backgroundColor = 'White';
+          document.querySelector('#answer').innerHTML = 'You are correct! Hogwart is my favorite game for 2023 so far!';
+
+     });
+
+      //When click on, "Not my favorite game"
+
+      incorrectF = document.querySelector('.notMyFavorite');
+      incorrectF.addEventListener('click', function () {
+        incorrectF.style.backgroundColor = 'Red';
+        correct.style.backgroundColor = 'White';
+        incorrectSW.style.backgroundColor = 'White';
+        document.querySelector('#answer').innerHTML = 'Sorry, Star Wars: Surviver is not my favorite game.';
+
+
+     });
+
+      //When click on, "Not my favorite game"
+
+      incorrectSW = document.querySelector('.notMyFavorite2');
+      incorrectSW.addEventListener('click', function () {
+        incorrectSW.style.backgroundColor = 'Red';
+        correct.style.backgroundColor = 'White';
+        incorrectF.style.backgroundColor = 'White';
+        document.querySelector('#answer').innerHTML = 'Sorry, Forspoken is not my favorite game.';
+
+
+     });
+
+
+  });
+
+
+  </script>
+
+
+
+                          <main class="container p-5">
+                              <body>
+                                  <div class="wrapper-main">
+                                      <div class="header">
+                                        <h1><span id="name">ClarenceGamingDEN</span></h1><br><br>
+                                      </div>
+
+                                      <div>
+                                       <div class="section">
+                                        <h2>Choose my favorite game</h2>
+                                          <hr>
+
+                                          <h3>After reading over my reviews, which one of these games do you think is my favorite game of 2023 so far? Is it Star Wars: Surviver, Forspoken, or Hogwart Legacy?</h3>
+
+                                                  <button class="notMyFavorite">Star Wars: Surviver</button>
+                                                  <button class="notMyFavorite2">Forspoken</button>
+                                                  <button class="myFavorite">Hogwart Legacy</button>
+
+                                                  <p id="answer"></p>
+                                          </div>
+                                         </div>
+                                         <br><br>
+
+                                         <div>
+                                          <h4>Click here if you want to revisit the other reviews:</h4>
+                                          <ul style="list-style-type:none">
+                                            <li class="nav-item"><a class="nav-link" href="/sw">Star Wars: Jedi Surviver</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="/forspoken">Forspoken</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="/hogwart">Hogwart</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="/comment">Click here for Comments</a></li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                       </body>
+                                      </main>
+
+
+{% endblock %}

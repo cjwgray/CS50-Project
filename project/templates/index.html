@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+
+
+
+
+
+        <main class="container p-5">
+          <head>
+            <div>
+              
+            </div>
+          </head>
+          <body>
+            <div class="wrapper-main">
+              <h1><span id="name">Welcome to ClarenceGamingDEN</span></h1>
+              <br>
+              <div>
+              <h3><span id="name2">Thank you for joining my gaming review site. On this site, you will read three of the games that I had reviewed on my PC so far this year. After reading my reviews, you can anwser a question about the games I reviewed, and you will have the change to leave a comment or leave your on review.</span></h3>
+              <br><br>
+            </div>
+              <img class="img_cj" src="/static/mgames.webp" alt="...">
+              <br><br><br>
+              <p span id="name2">
+                There are three games that I played so far in 2023. Determine which one of these three games I've played is my favorite.
+                Click on each game and read my reviews. After reading my reviews, you can take a quiz to see if you are able to guess my thoughs on each of the games that I reviewed. You can leave your thoughs by clicking on the comments link.
+              </p>
+              <ul style="list-style-type:none">
+                <li class="nav-item"><a class="nav-link" href="/favorite">Take Quiz</a></li>
+                <li class="nav-item"><a class="nav-link" href="/comment">Click here for Comments</a></li>
+            </ul></div></br>
+                <h3 class="about">Here are the games I played so far</h3>
+
+                  <ul style="list-style-type:none">
+                    <li class="nav-item"><a class="nav-link" href="/sw">Star Wars: Jedi Surviver</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/forspoken">Forspoken</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/hogwart">Hogwart</a></li>
+
+                </ul></div></br></br></br>
+
+                  <h4 class="about">Here are my PC specifications</h4>
+                  <table cellpadding="10">
+                    <tr>
+                        <th>Graphics Card</th>
+                        <th>CPU</th>
+                        <th>Motherboard</th>
+                        <th>Other PC Accessories</th>
+                     </tr>
+                     <tr>
+                        <td>ASUS TUF GeForce RTX 4090 OC Edition</td>
+                        <td>Intel Core i9-13900k</td>
+                        <td>ASUS Prime Z790-P WIFI LGA 1700</td>
+                        <td>Corsair ICUE H150i Elite Capellix Liquid CPU Cooler</td>
+                     </tr>
+                     <tr>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>Corsair HX Series, HX1200, 1200 watt power supply</td>
+                   </tr>
+                   <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>Corsair iCUE 7000X RGB Full-Tower</td>
+                 </tr>
+                 <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>Corsair Vengeance DDR 32GB 6000</td>
+               </tr>
+                  </table>
+
+                </div>
+              </body>
+            </main>
+
+
+{% endblock %}
