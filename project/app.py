@@ -1,5 +1,4 @@
 import os
-
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -37,6 +36,7 @@ def after_request(response):
 @login_required
 def index():
     """Home page"""
+    
     return render_template("index.html")
 
 
@@ -88,6 +88,11 @@ def login():
         return redirect("/")
     else:
         return render_template("login.html")
+    
+
+@app.route('/username/<name>')
+def username(name):
+    return render_template("user.html", user_name=name)
 
 
 @app.route("/logout")
