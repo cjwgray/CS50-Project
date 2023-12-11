@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Vote
+{% endblock %}
+
+{% block main %}
+
+    <title>Simple Poll</title>
+    <h3>Polls:</h3>
+    <ul>
+     {% for key, value in polls.iterrows() %}
+     <li>
+       <a href="{{ {% url_for(polls, pid=key) %} }}"></a>
+     </li>
+    </ul>
+
+{% endblock %}

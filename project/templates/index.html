@@ -5,12 +5,6 @@
 {% endblock %}
 
 {% block main %}
-
-
-
-
-
-
         <main class="container p-5">
           <head>
             <div>
@@ -22,27 +16,37 @@
               <h1><span id="name">Welcome to ClarenceGamingDEN</span></h1>
               <br>
               <div>
-              <h3><span id="name2">Thank you for joining my gaming review site. On this site, you will read three of the games that I had reviewed on my PC so far this year. After reading my reviews, you can anwser a question about the games I reviewed, and you will have the change to leave a comment or leave your on review.</span></h3>
-              <br><br>
-            </div>
-              <img class="img_cj" src="/static/mgames.webp" alt="...">
-              <br><br><br>
-              <p span id="name2">
-                There are three games that I played so far in 2023. Determine which one of these three games I've played is my favorite.
-                Click on each game and read my reviews. After reading my reviews, you can take a quiz to see if you are able to guess my thoughs on each of the games that I reviewed. You can leave your thoughs by clicking on the comments link.
-              </p>
-              <ul style="list-style-type:none">
-                <li class="nav-item"><a class="nav-link" href="/favorite">Take Quiz</a></li>
-                <li class="nav-item"><a class="nav-link" href="/comment">Click here for Comments</a></li>
-            </ul></div></br>
-                <h3 class="about">Here are the games I played so far</h3>
+              <h3><span id="name2">Thank you for visiting my gaming review site. Here, you'll find reviews of three games that I've assessed for my Game of the Year selection. After reading these reviews, you can vote for the PC game you believe should be Game of the Year. Additionally, once you've read the reviews, you'll be prompted to guess which PC game I've chosen as my Game of the Year.</span></h3>
+            </div><br><br>
+            <img class="img_cj" src="/static/pcgames2023 (1).jpg" alt="..."><br><br>
+
+          
+                      
+              <h3 class="about">Game of the Year nominees</h3>
 
                   <ul style="list-style-type:none">
-                    <li class="nav-item"><a class="nav-link" href="/sw">Star Wars: Jedi Surviver</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/forspoken">Forspoken</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/hogwart">Hogwart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/alanwake2">Alan Wake 2</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/baldursgate3">Baldur's Gate 3</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cyberpunk2077PL">Cyberpunk 2077: Phantom Liberty</a></li>
+                  
 
-                </ul></div></br></br></br>
+                </ul></div></br>
+                <h3 class="about">Vote for your game of the year:</h3>
+                <ul style="list-style-type:none">
+                 {% for key, value in polls.iterrows() %}
+                 
+                 <li class="nav-item"><a class="nav-link" href="{{ url_for("polls", pid=key) }}">{{ value['poll']}}</a>
+                 </li>
+                 {% endfor%}
+                </ul>
+  
+               
+
+                <ul style="list-style-type:none">
+                  <li class="nav-item"><a class="nav-link" href="/favorite">My game of the year</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/comment">Click here for Comments</a></li>
+              </ul></div></br>
+              
 
                   <h4 class="about">Here are my PC specifications</h4>
                   <table cellpadding="10">

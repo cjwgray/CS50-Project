@@ -1,6 +1,7 @@
-import os
+import os.path
+import pandas as pd
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template,session, request, url_for, make_response
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -8,7 +9,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, lookup, usd
 
 # Configure application
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
+
 
 
 # Configure session to use filesystem (instead of signed cookies)
@@ -29,7 +31,21 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+if not os.path.exists("polls.csv"):
+    structure = {
+        "pid": [],
+        "poll": [],
+        "option1": [],
+        "option2": [],
+        "option3": [],
+        "votes1": [],
+        "votes2": [],
+        "votes3": []
+    }
 
+    pd.DataFrame(structure).set_index("pid").to_csv("polls.csv")
+
+polls_df = pd.read_csv("polls.csv").set_index("pid")
 
 
 @app.route("/")
@@ -37,27 +53,61 @@ def after_request(response):
 def index():
     """Home page"""
     
-    return render_template("index.html")
+    return render_template("index.html", polls=polls_df)
 
-
-@app.route("/forspoken")
+@app.route("/polls/<pid>")
 @login_required
-def forspoken():
+def polls(pid):
+    poll = polls_df.loc[int(pid)]
+    return render_template("show_poll.html", poll=poll)
+
+@app.route("/polls", methods=["GET", "POST"])
+@login_required
+def create_poll():
+    if request.method == "GET":
+        return render_template("new_poll.html")
+    elif request.method == "POST":
+        poll = request.form['poll']
+        option1 = request.form['option1']
+        option2 = request.form['option2']
+        option3 = request.form['option3']
+        polls_df.loc[max(polls_df.index.values) + 1] = [poll, option1, option2, option3, 0, 0, 0]
+        polls_df.to_csv("polls.csv")
+        return redirect(url_for("index"))
+    
+    
+@app.route("/vote/<pid>/<option>")
+@login_required
+def vote(pid, option):
+    if request.cookies.get(f"vote_{pid}_cookie") is None:
+        polls_df.at[int(pid), "votes"+str(option)]+= 1
+        polls_df.to_csv("polls.cvs")
+        response = make_response(redirect(url_for("polls", pid=pid)))
+        response.set_cookie(f"vote_{pid}_cookie", str(option))
+        return response
+    else:
+        return "Cannot vote more than once!"
+      
+
+
+@app.route("/baldursgate3")
+@login_required
+def baldursgate3():
     """The Forspoke game page"""
-    return render_template("forspoken.html")
+    return render_template("baldursgate3.html")
 
 
-@app.route("/hogwart")
+@app.route("/cyberpunk2077PL")
 @login_required
-def hogwart():
-    """The Hogwart game page"""
-    return render_template("hogwart.html")
+def cyberpunk2077PL():
+    """The cyberpunk2077PL game page"""
+    return render_template("cyberpunk2077PL.html")
 
-@app.route("/sw")
+@app.route("/alanwake2")
 @login_required
-def sw():
+def alanwake2():
     """The Starwars: Surviver game page"""
-    return render_template("sw.html")
+    return render_template("alanwake2.html")
 
 @app.route("/favorite")
 @login_required
@@ -150,6 +200,10 @@ def comment():
 
 
         return render_template("comment.html", comments=comments)
+    
+    
+if __name__ == "__main__":
+    app.run(host="localhost", debug=True)
 
 
 

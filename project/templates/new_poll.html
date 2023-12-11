@@ -1,0 +1,39 @@
+{% block title %}
+    Comments
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+    <head> 
+        <meta charst="UTF-8">
+        <title>Create New Poll</title>
+    </head>
+      <body>
+       <h3>Create New Poll</h3>
+       <form action="{{ url_for("create_poll") }}" method="post">
+        <label for="poll">
+            Poll Text:
+            <input type="text" name="poll" placeholder="Poll Text">
+        </label><br>
+
+        <label for="option1">
+            option 1:
+            <input type="text" name="option1" placeholder="Option 1">
+        </label><br>
+
+        <label for="option2">
+            option 2:
+            <input type="text" name="option1" placeholder="Option 2">
+        </label><br>
+
+        <label for="option3">
+            option 3:
+            <input type="text" name="option1" placeholder="Option 3">
+        </label><br>
+        <input type="submit" value="Create">
+       </form>
+      </body>
+
+  
+</html>
+{% endblock %}
