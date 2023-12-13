@@ -9,21 +9,22 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, lookup, usd
 
 # Configure application
-app = Flask(__name__, template_folder="templates")
+application = Flask(__name__, template_folder="templates")
 
 
 
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+application.config["SESSION_PERMANENT"] = False
+application.config["SESSION_TYPE"] = "filesystem"
+Session(application)
 
 # Configure CS50 Library to use SQLite database
+# db = SQL("sqlite:///Project.db")
 db = SQL("sqlite:///Project.db")
 
 
 
-@app.after_request
+@application.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -48,20 +49,20 @@ if not os.path.exists("polls.csv"):
 polls_df = pd.read_csv("polls.csv").set_index("pid")
 
 
-@app.route("/")
+@application.route("/")
 @login_required
 def index():
     """Home page"""
     
     return render_template("index.html", polls=polls_df)
 
-@app.route("/polls/<pid>")
+@application.route("/polls/<pid>")
 @login_required
 def polls(pid):
     poll = polls_df.loc[int(pid)]
     return render_template("show_poll.html", poll=poll)
 
-@app.route("/polls", methods=["GET", "POST"])
+@application.route("/polls", methods=["GET", "POST"])
 @login_required
 def create_poll():
     if request.method == "GET":
@@ -76,7 +77,7 @@ def create_poll():
         return redirect(url_for("index"))
     
     
-@app.route("/vote/<pid>/<option>")
+@application.route("/vote/<pid>/<option>")
 @login_required
 def vote(pid, option):
     if request.cookies.get(f"vote_{pid}_cookie") is None:
@@ -90,33 +91,33 @@ def vote(pid, option):
       
 
 
-@app.route("/baldursgate3")
+@application.route("/baldursgate3")
 @login_required
 def baldursgate3():
-    """The Forspoke game page"""
+    """The baldurs gate 3 game page"""
     return render_template("baldursgate3.html")
 
 
-@app.route("/cyberpunk2077PL")
+@application.route("/cyberpunk2077PL")
 @login_required
 def cyberpunk2077PL():
     """The cyberpunk2077PL game page"""
     return render_template("cyberpunk2077PL.html")
 
-@app.route("/alanwake2")
+@application.route("/alanwake2")
 @login_required
 def alanwake2():
-    """The Starwars: Surviver game page"""
+    """The Alan Wake 2 game page"""
     return render_template("alanwake2.html")
 
-@app.route("/favorite")
+@application.route("/favorite")
 @login_required
 def favorite():
     """This page is for the quiz"""
     return render_template("favorite.html")
 
 
-@app.route("/login", methods=["GET", "POST"])
+@application.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
     if request.method == "POST":
@@ -140,19 +141,19 @@ def login():
         return render_template("login.html")
     
 
-@app.route('/username/<name>')
+@application.route('/username/<name>')
 def username(name):
     return render_template("user.html", user_name=name)
 
 
-@app.route("/logout")
+@application.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
 
 
-@app.route("/register", methods=["GET", "POST"])
+@application.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
     if (request.method == "POST"):
@@ -180,7 +181,7 @@ def register():
         return render_template("register.html")
 
 
-@app.route("/comment", methods =["GET", "POST"])
+@application.route("/comment", methods =["GET", "POST"])
 @login_required
 def comment():
     """This is for the users to leave comments"""
@@ -203,7 +204,7 @@ def comment():
     
     
 if __name__ == "__main__":
-    app.run(host="localhost", debug=True)
+    application.run(host="localhost", debug=True)
 
 
 
