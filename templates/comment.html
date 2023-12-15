@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends "layout.html" %}
 
 {% block title %}
@@ -7,7 +8,7 @@
 {% block main %}
 
                           <section>
-                            <div>{{ username }}</div>
+                            
                             <div class="wrapper-main">
                                 <h1><span id="name">Welcome to ClarenceGamingDEN</span></h1>
                                 <br>
@@ -22,17 +23,18 @@
                                 </div>
                             </form>
                             </div>
-                          </section>
+                          </section></br>
 
 
 
 
-
+                          <h4 class="about">{{ username }} comments:</h4>
                 {% for comment in comments %}
-
+                     
                     <div class="list-group-item">
-                        <h4>{{ comment.id }}</h4>
-                        <h6>{{ comment.comment }}</h6>
+                        <h6>{{ comment.id }}</h6>
+                        <h6>{{ comment.send }}</h6>
+                        <h6 span id="name2">{{ comment.comment }}</h6>
                         <p>{{ comment.date }}</p>
                     </div>
                 {% endfor %}

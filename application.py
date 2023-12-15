@@ -19,7 +19,7 @@ application.config["SESSION_TYPE"] = "filesystem"
 Session(application)
 
 # Configure CS50 Library to use SQLite database db
-# db = SQL("sqlite:///Project.db")
+
 db = SQL("sqlite:///Project.db")
 
 
@@ -49,12 +49,102 @@ if not os.path.exists("polls.csv"):
 polls_df = pd.read_csv("polls.csv").set_index("pid")
 
 
+
+
+
+
+
+@application.route("/login", methods=["GET", "POST"])
+def login():
+    session.clear()
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return apology("must provide username", 403)
+
+
+        elif not request.form.get("password"):
+            return apology("must provide password", 403)
+
+
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+
+
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+            return apology("invalid username and/or password", 403)
+
+        session["user_id"] = rows[0]["id"]
+        session["username"] = rows[0]["username"]
+        return redirect("/")
+    
+    else:
+        return render_template("login.html")
+    
+    
+
+
+
+
+@application.route("/logout")
+def logout():
+    session.clear()
+    
+    return redirect("/")
+
+
+
+@application.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    if (request.method == "POST"):
+        username = request.form.get('username')
+        password = request.form.get('password')
+        confirmation = request.form.get('confirmation')
+
+        if not username:
+            return apology('Please enter username.')
+        elif not password:
+            return apology('Please enter password.')
+        elif not confirmation:
+            return apology('Please confirm password.')
+        if password != confirmation:
+            return apology('Passwords do not match')
+
+        hash = generate_password_hash(password)
+
+        try:
+            db.execute("INSERT INTO users(username, hash) VALUES (?, ?)", username, hash)
+            return redirect('/')
+        except:
+            return apology('Username is already used.')
+    else:
+        return render_template("register.html")
+    
+
+
+
+
+
 @application.route("/")
 @login_required
 def index():
     """Home page"""
+    """user_id = session.get("user_id")"""
+    username = session.get("username")
+        
+    return render_template("index.html", polls=polls_df, username=username)
+
+@application.route('/user')
+@login_required
+def user():
     
-    return render_template("index.html", polls=polls_df)
+    username = session.get("username")
+    
+    return render_template("user.html", username=username)
+ 
+       
+       
+       
+       
 
 @application.route("/polls/<pid>")
 @login_required
@@ -95,111 +185,59 @@ def vote(pid, option):
 @login_required
 def baldursgate3():
     """The baldurs gate 3 game page"""
-    return render_template("baldursgate3.html")
+    username = session.get("username")
+    return render_template("baldursgate3.html", username=username)
 
 
 @application.route("/cyberpunk2077PL")
 @login_required
 def cyberpunk2077PL():
     """The cyberpunk2077PL game page"""
-    return render_template("cyberpunk2077PL.html")
+    username = session.get("username")
+    return render_template("cyberpunk2077PL.html", username=username)
 
 @application.route("/alanwake2")
 @login_required
 def alanwake2():
     """The Alan Wake 2 game page"""
-    return render_template("alanwake2.html")
+    username = session.get("username")
+    return render_template("alanwake2.html", username=username)
 
 @application.route("/favorite")
 @login_required
 def favorite():
     """This page is for the quiz"""
-    return render_template("favorite.html")
+    username = session.get("username")
+    return render_template("favorite.html", username=username)
 
 
-@application.route("/login", methods=["GET", "POST"])
-def login():
-    session.clear()
-    if request.method == "POST":
-        if not request.form.get("username"):
-            return apology("must provide username", 403)
-
-
-        elif not request.form.get("password"):
-            return apology("must provide password", 403)
-
-
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
-
-
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
-
-        session["user_id"] = rows[0]["id"]
-        return redirect("/")
-    else:
-        return render_template("login.html")
-    
-
-@application.route('/username/<name>')
-def username(name):
-    return render_template("user.html", user_name=name)
-
-
-@application.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
-
-
-
-@application.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user"""
-    if (request.method == "POST"):
-        username = request.form.get('username')
-        password = request.form.get('password')
-        confirmation = request.form.get('confirmation')
-
-        if not username:
-            return apology('Please enter username.')
-        elif not password:
-            return apology('Please enter password.')
-        elif not confirmation:
-            return apology('Please confirm password.')
-        if password != confirmation:
-            return apology('Passwords do not match')
-
-        hash = generate_password_hash(password)
-
-        try:
-            db.execute("INSERT INTO users(username, hash) VALUES (?, ?)", username, hash)
-            return redirect('/')
-        except:
-            return apology('Username is already used.')
-    else:
-        return render_template("register.html")
 
 
 @application.route("/comment", methods =["GET", "POST"])
 @login_required
 def comment():
     """This is for the users to leave comments"""
+    username = session.get("username")
     if request.method == "GET":
-        
+        #userId = session["user_id"]
+        #usernameDB = db.execute("SELECT username FROM users WHERE id = ?", userId)
+        #username = usernameDB[0]["username"]
         comments = db.execute("SELECT send as comment, date, id FROM comments ORDER BY date DESC")
-        return render_template("comment.html", comments=comments)
+        #comments = db.execute("SELECT * FROM comments WHERE send = ?", username)
+        return render_template("comment.html", comments=comments, username=username)
     else:
         comment = request.form.get("comment")
-
+        
 
         if not comment:
             return apology("No Empty Fields")
 
         db.execute("INSERT INTO comments (send) VALUES (?)", comment)
         comments = db.execute("SELECT send as comment, date, id FROM comments ORDER BY date DESC")
+       
 
-
+        #username = session.get("username")
+       
         return render_template("comment.html", comments=comments)
     
     

@@ -78,6 +78,10 @@ body {
     color: #660066;
 }
 
+.nav-item2 {
+    color:#660066
+}
+
 li:hover {
     font-family: arial;
     color: red;
@@ -87,7 +91,7 @@ li:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items center;
+    align-items: center;
     background-color: silver;
 
 
