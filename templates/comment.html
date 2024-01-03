@@ -28,13 +28,13 @@
 
 
 
-                          <h4 class="about">{{ username }} comments:</h4>
+                          <h4 class="about">Comments:</h4>
                 {% for comment in comments %}
                      
                     <div class="list-group-item">
                         <h6>{{ comment.id }}</h6>
-                        <h6>{{ comment.send }}</h6>
-                        <h6 span id="name2">{{ comment.comment }}</h6>
+                        <h6 span id="name2">{{ comment.username }}</h6>
+                        <h6>{{ comment.comment }}</h6>
                         <p>{{ comment.date }}</p>
                     </div>
                 {% endfor %}
