@@ -18,9 +18,9 @@ application.config["SESSION_PERMANENT"] = False
 application.config["SESSION_TYPE"] = "filesystem"
 Session(application)
 
-# Configure CS50 Library to use SQLite database db
+# SQLite database db
 
-db = SQL("sqlite:///Project.db")
+db = SQL("sqlite:///ClarenceGamingDen.db")
 
 
 
@@ -219,11 +219,9 @@ def comment():
     """This is for the users to leave comments"""
     username = session.get("username")
     if request.method == "GET":
-        #userId = session["user_id"]
-        #usernameDB = db.execute("SELECT username FROM users WHERE id = ?", userId)
-        #username = usernameDB[0]["username"]
-        comments = db.execute("SELECT send as comment, date, id FROM comments ORDER BY date DESC")
-        #comments = db.execute("SELECT * FROM comments WHERE send = ?", username)
+       
+        comments = db.execute("SELECT send as comment, username, date, id FROM comments ORDER BY date DESC")
+        
         return render_template("comment.html", comments=comments, username=username)
     else:
         comment = request.form.get("comment")
@@ -232,8 +230,8 @@ def comment():
         if not comment:
             return apology("No Empty Fields")
 
-        db.execute("INSERT INTO comments (send) VALUES (?)", comment)
-        comments = db.execute("SELECT send as comment, date, id FROM comments ORDER BY date DESC")
+        db.execute("INSERT INTO comments (username, send) VALUES (?,?)", username, comment)
+        comments = db.execute("SELECT send as comment, username, date, id FROM comments ORDER BY date DESC")
        
 
         #username = session.get("username")
@@ -243,10 +241,3 @@ def comment():
     
 if __name__ == "__main__":
     application.run(host="localhost", debug=True)
-
-
-
-
-
-
-
