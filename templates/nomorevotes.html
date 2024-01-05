@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+
+{% block title %}``
+    No more votes
+{% endblock %}
+
+{% block main %}
+ <h1 span id="name">Sorry {{ username }}, you can only vote once.</h1><br><br>
+ <img class="img_cj" src="/static/pcgames2023 (1).jpg" alt="..."><br><br>
+ <a href="{{ url_for("index")}}">Back</a>
+{% endblock %}

@@ -170,6 +170,7 @@ def create_poll():
 @application.route("/vote/<pid>/<option>")
 @login_required
 def vote(pid, option):
+    username = session.get("username")
     if request.cookies.get(f"vote_{pid}_cookie") is None:
         polls_df.at[int(pid), "votes"+str(option)]+= 1
         polls_df.to_csv("polls.cvs")
@@ -177,9 +178,9 @@ def vote(pid, option):
         response.set_cookie(f"vote_{pid}_cookie", str(option))
         return response
     else:
-        return "Cannot vote more than once!"
-      
-
+        return render_template("nomorevotes.html", username=username) 
+    
+    
 
 @application.route("/baldursgate3")
 @login_required
