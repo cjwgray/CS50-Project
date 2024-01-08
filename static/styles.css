@@ -25,6 +25,7 @@ nav .navbar-brand .green
 .img_cj {
     width: 800px;
     height: 500px;
+    box-shadow: 10px 5px 5px;
 }
 
 .img_sw {
